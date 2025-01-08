@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النقاط</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://wallpaperaccess.com/full/260170.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            direction: rtl;
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            gap: 20px;
+            justify-content: flex-start;
+            padding: 20px;
+            margin-top: 70px;
+        }
+        .form-box {
+            border: 1px solid #ccc;
+            padding: 20px 20px 20px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .header input {
+            width: 100%;
+            padding: 8px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .form-box input {
+            width: 280px;
+            padding: 8px;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+        .add-remove-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .add-remove-buttons button {
+            width: 48%;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        .add-form-button, .delete-form-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .delete-form-button {
+            right: 140px;
+            background-color: #FF0000;
+        }
+        .add-form-button:hover, .delete-form-button:hover {
+            opacity: 0.9;
+        }
+        .save-button {
+            position: absolute;
+            top: 20px;
+            right: 220px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .download-button {
+            position: absolute;
+            top: 20px;
+            right: 255px;
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let formCount = 2;
+
+        function calculateSum(formId) {
+            const inputs = document.querySelectorAll(`#form${formId} .number-input`);
+            let sum = 0;
+            inputs.forEach(input => {
+                sum += parseFloat(input.value) || 0;
+            });
+            document.getElementById(`total${formId}`).value = sum;
+        }
+
+        function addField(formId) {
+            const form = document.getElementById(`form${formId}`);
+            const fieldCount = form.querySelectorAll('.number-input').length + 1;
+
+            const input = document.createElement('input');
+            input.type = 'tel';
+            input.className = 'number-input';
+            input.placeholder = `الدور ${fieldCount}`;
+            input.style.textAlign = 'right';
+            input.oninput = () => calculateSum(formId);
+
+            const addButton = form.querySelector('.add-remove-buttons');
+            form.insertBefore(input, addButton);
+        }
+
+        function removeField(formId) {
+            const form = document.getElementById(`form${formId}`);
+            const inputs = form.querySelectorAll('.number-input');
+            const name = document.getElementById(`name${formId}`).value.trim();
+            if (inputs.length > 1) {
+                if (name && confirm(`هل أنت متأكد من حذف آخر دور في أدوار (${name})؟`)) {
+                    inputs[inputs.length - 1].remove();
+                } else if (!name) {
+                    inputs[inputs.length - 1].remove();
+                }
+            }
+        }
+
+        function addNewForm() {
+            formCount++;
+            const formContainer = document.getElementById('formContainer');
+
+            const formBox = document.createElement('div');
+            formBox.className = 'form-box';
+            formBox.id = `form${formCount}`;
+
+            formBox.innerHTML = `
+                <div class="header">
+                    <label>الاسم:</label>
+                    <input type="text" placeholder="الاسم" id="name${formCount}" style="text-align: right;">
+                    <label>المجموع:</label>
+                    <input type="number" id="total${formCount}" readonly style="text-align: right;">
+                </div>
+                <input type="tel" class="number-input" placeholder="الدور 1" oninput="calculateSum(${formCount})" style="text-align: right;">
+                <input type="tel" class="number-input" placeholder="الدور 2" oninput="calculateSum(${formCount})" style="text-align: right;">
+                <input type="tel" class="number-input" placeholder="الدور 3" oninput="calculateSum(${formCount})" style="text-align: right;">
+                <div class="add-remove-buttons">
+                    <button type="button" onclick="addField(${formCount})">إضافة دور جديد</button>
+                    <button type="button" onclick="removeField(${formCount})">حذف آخر دور</button>
+                </div>
+            `;
+            formContainer.prepend(formBox);
+        }
+
+        function removeLastForm() {
+            if (formCount > 1) {
+                const form = document.getElementById(`form${formCount}`);
+                const name = document.getElementById(`name${formCount}`).value.trim();
+                if (name && confirm(`هل أنت متأكد من حذف (${name})؟`)) {
+                    form.remove();
+                    formCount--;
+                } else if (!name) {
+                    form.remove();
+                    formCount--;
+                }
+            }
+        }
+
+        function downloadData() {
+            const wb = XLSX.utils.book_new();
+            wb.Props = {
+                Title: "نتائج الأدوار",
+                Author: "المستخدم",
+                CreatedDate: new Date()
+            };
+
+            const ws_data = [["الاسم", "المجموع", "الأدوار"]];
+            for (let i = 1; i <= formCount; i++) {
+                const name = document.getElementById(`name${i}`).value.trim();
+                const total = document.getElementById(`total${i}`).value;
+                const roles = Array.from(document.querySelectorAll(`#form${i} .number-input`)).map(input => input.value).join("; ");
+                ws_data.push([name, total, roles]);
+            }
+
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            ws["!cols"] = [{ width: 20 }, { width: 10 }, { width: 50 }];
+            wb.Sheets["Sheet1"] = ws;
+            wb.SheetNames.push("Sheet1");
+
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+            const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'نتائج.xlsx';
+            a.click();
+        }
+
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF;
+            }
+            return buf;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 1; i <= formCount; i++) {
+                calculateSum(i);
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <button type="button" class="add-form-button" onclick="addNewForm()">إضافة اسم جديد</button>
+    <button type="button" class="delete-form-button" onclick="removeLastForm()">حذف آخر اسم</button>
+    <button type="button" class="download-button" onclick="downloadData()">تحميل البيانات</button>
+
+    <div id="formContainer" class="form-container">
+        <div class="form-box" id="form1">
+            <div class="header">
+                <label>الاسم:</label>
+                <input type="text" placeholder="الاسم" id="name1" style="text-align: right;">
+                <label>المجموع:</label>
+                <input type="number" id="total1" readonly style="text-align: right;">
+            </div>
+            <input type="tel" class="number-input" placeholder="الدور 1" oninput="calculateSum(1)" style="text-align: right;">
+            <input type="tel" class="number-input" placeholder="الدور 2" oninput="calculateSum(1)" style="text-align: right;">
+            <input type="tel" class="number-input" placeholder="الدور 3" oninput="calculateSum(1)" style="text-align: right;">
+            <div class="add-remove-buttons">
+                <button type="button" onclick="addField(1)">إضافة دور جديد</button>
+                <button type="button" onclick="removeField(1)">حذف آخر دور</button>
+            </div>
+        </div>
+
+        <div class="form-box" id="form2">
+            <div class="header">
+                <label>الاسم:</label>
+                <input type="text" placeholder="الاسم" id="name2" style="text-align: right;">
+                <label>المجموع:</label>
+                <input type="number" id="total2" readonly style="text-align: right;">
+            </div>
+            <input type="tel" class="number-input" placeholder="الدور 1" oninput="calculateSum(2)" style="text-align: right;">
+            <input type="tel" class="number-input" placeholder="الدور 2" oninput="calculateSum(2)" style="text-align: right;">
+            <input type="tel" class="number-input" placeholder="الدور 3" oninput="calculateSum(2)" style="text-align: right;">
+            <div class="add-remove-buttons">
+                <button type="button" onclick="addField(2)">إضافة دور جديد</button>
+                <button type="button" onclick="removeField(2)">حذف آخر دور</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
