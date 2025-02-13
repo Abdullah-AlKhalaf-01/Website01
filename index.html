@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,24 +85,23 @@
         let formCount = 2;
 
         function calculateSum(formId) {
-            const inputs = document.querySelectorAll(`#form${formId} .number-input`);
+            const inputs = document.querySelectorAll(#form${formId} .number-input);
             let sum = 0;
             inputs.forEach(input => {
                 sum += parseFloat(input.value) || 0;
             });
-            document.getElementById(`total${formId}`).value = sum;
+            document.getElementById(total${formId}).value = sum;
         }
 
         function addField(formId) {
-            const form = document.getElementById(`form${formId}`);
+            const form = document.getElementById(form${formId});
             const fieldCount = form.querySelectorAll('.number-input').length + 1;
 
             const input = document.createElement('input');
             input.type = 'tel';
             input.className = 'number-input';
-            input.inputmode = 'decimal';  // إضافية لتحديد لوحة المفاتيح الرقمية مع السماح بالأرقام السالبة
-            input.pattern = "^[+-]?[0-9]*[.,]?[0-9]*$"; // السماح بالسالب والنقطة العشرية
-            input.placeholder = `الدور ${fieldCount}`;
+            input.pattern = "^-?[0-9]*$"; // السماح بالسالب
+            input.placeholder = الدور ${fieldCount};
             input.oninput = () => calculateSum(formId);
 
             const addButton = form.querySelector('.add-remove-buttons');
@@ -110,15 +109,15 @@
         }
 
         function removeField(formId) {
-            const form = document.getElementById(`form${formId}`);
+            const form = document.getElementById(form${formId});
             const inputs = form.querySelectorAll('.number-input');
 
             if (inputs.length > 1) {
                 const lastInput = inputs[inputs.length - 1];
                 const lastInputValue = lastInput.value.trim();
-                const name = document.getElementById(`name${formId}`).value.trim() || `نموذج ${formId}`;
+                const name = document.getElementById(name${formId}).value.trim() || نموذج ${formId};
 
-                if ((lastInputValue && confirm(`هل أنت متأكد من حذف آخر دور ( ${lastInputValue} ) من أدوار ( ${name} )؟`)) || !lastInputValue) {
+                if ((lastInputValue && confirm(هل أنت متأكد من حذف آخر دور ( ${lastInputValue} ) من أدوار ( ${name} )؟)) || !lastInputValue) {
                     lastInput.remove();
                 }
             }
@@ -130,34 +129,34 @@
 
             const formBox = document.createElement('div');
             formBox.className = 'form-box';
-            formBox.id = `form${formCount}`;
+            formBox.id = form${formCount};
 
-            formBox.innerHTML = `
+            formBox.innerHTML = 
                 <div class="header">
                     <label>الاسم:</label>
                     <input type="text" placeholder="الاسم" id="name${formCount}">
                     <label>المجموع:</label>
                     <input type="number" id="total${formCount}" readonly>
                 </div>
-                <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 1" oninput="calculateSum(${formCount})">
-                <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 2" oninput="calculateSum(${formCount})">
-                <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 3" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 1" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 2" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 3" oninput="calculateSum(${formCount})">
                 <div class="add-remove-buttons">
                     <button type="button" onclick="addField(${formCount})">إضافة دور جديد</button>
                     <button type="button" onclick="removeField(${formCount})">حذف آخر دور</button>
                 </div>
-            `;
+            ;
             formContainer.appendChild(formBox);
         }
 
         function removeLastForm() {
             if (formCount > 1) {
-                const form = document.getElementById(`form${formCount}`);
-                const name = document.getElementById(`name${formCount}`).value.trim() || `نموذج ${formCount}`;
+                const form = document.getElementById(form${formCount});
+                const name = document.getElementById(name${formCount}).value.trim() || نموذج ${formCount};
                 const inputs = form.querySelectorAll('.number-input');
                 const hasNumbers = Array.from(inputs).some(input => input.value.trim());
 
-                if ((name || hasNumbers) && confirm(`هل أنت متأكد من حذف جميع أدوار ( ${name} )؟`) || (!name && !hasNumbers)) {
+                if ((name || hasNumbers) && confirm(هل أنت متأكد من حذف جميع أدوار ( ${name} )؟) || (!name && !hasNumbers)) {
                     form.remove();
                     formCount--;
                 }
@@ -174,9 +173,9 @@
 
             const ws_data = [["الاسم", "المجموع", "الأدوار"]];
             for (let i = 1; i <= formCount; i++) {
-                const name = document.getElementById(`name${i}`).value.trim();
-                const total = document.getElementById(`total${i}`).value;
-                const roles = Array.from(document.querySelectorAll(`#form${i} .number-input`)).map(input => input.value).join("; ");
+                const name = document.getElementById(name${i}).value.trim();
+                const total = document.getElementById(total${i}).value;
+                const roles = Array.from(document.querySelectorAll(#form${i} .number-input)).map(input => input.value).join("; ");
                 ws_data.push([name, total, roles]);
             }
 
@@ -219,19 +218,36 @@
     </div>
 
     <div id="formContainer" class="form-container">
+        <!-- سيتم إضافة النماذج الجديدة هنا -->
         <div class="form-box" id="form1">
             <div class="header">
-                <label>الاسم:1dsgfdrhgfdhfdg</label>
+                <label>الاسم:</label>
                 <input type="text" placeholder="الاسم" id="name1">
                 <label>المجموع:</label>
                 <input type="number" id="total1" readonly>
             </div>
-            <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 1" oninput="calculateSum(1)">
-            <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 2" oninput="calculateSum(1)">
-            <input type="tel" class="number-input" pattern="^[+-]?[0-9]*[.,]?[0-9]*$" inputmode="decimal" placeholder="الدور 3" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 1" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 2" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 3" oninput="calculateSum(1)">
             <div class="add-remove-buttons">
                 <button type="button" onclick="addField(1)">إضافة دور جديد</button>
                 <button type="button" onclick="removeField(1)">حذف آخر دور</button>
+            </div>
+        </div>
+
+        <div class="form-box" id="form2">
+            <div class="header">
+                <label>الاسم:</label>
+                <input type="text" placeholder="الاسم" id="name2">
+                <label>المجموع:</label>
+                <input type="number" id="total2" readonly>
+            </div>
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 1" oninput="calculateSum(2)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 2" oninput="calculateSum(2)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" placeholder="الدور 3" oninput="calculateSum(2)">
+            <div class="add-remove-buttons">
+                <button type="button" onclick="addField(2)">إضافة دور جديد</button>
+                <button type="button" onclick="removeField(2)">حذف آخر دور</button>
             </div>
         </div>
     </div>
