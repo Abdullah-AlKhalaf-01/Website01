@@ -100,8 +100,8 @@
             const input = document.createElement('input');
             input.type = 'tel';
             input.className = 'number-input';
-            input.inputmode = 'numeric';  // تحديد لوحة المفاتيح الرقمية
-            input.pattern = "^-?[0-9]+$"; // السماح بالأرقام مع السالب
+            input.inputmode = 'decimal';  // إضافية لتحديد لوحة المفاتيح الرقمية مع السماح بالأرقام السالبة
+            input.pattern = "^-?[0-9]*$"; // السماح بالسالب
             input.placeholder = `الدور ${fieldCount}`;
             input.oninput = () => calculateSum(formId);
 
@@ -139,9 +139,9 @@
                     <label>المجموع:</label>
                     <input type="number" id="total${formCount}" readonly>
                 </div>
-                <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 1" oninput="calculateSum(${formCount})">
-                <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 2" oninput="calculateSum(${formCount})">
-                <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 3" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 1" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 2" oninput="calculateSum(${formCount})">
+                <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 3" oninput="calculateSum(${formCount})">
                 <div class="add-remove-buttons">
                     <button type="button" onclick="addField(${formCount})">إضافة دور جديد</button>
                     <button type="button" onclick="removeField(${formCount})">حذف آخر دور</button>
@@ -222,14 +222,14 @@
         <!-- سيتم إضافة النماذج الجديدة هنا -->
         <div class="form-box" id="form1">
             <div class="header">
-                <label>الاسم:1</label>
+                <label>الاسم:111111111111</label>
                 <input type="text" placeholder="الاسم" id="name1">
                 <label>المجموع:</label>
                 <input type="number" id="total1" readonly>
             </div>
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 1" oninput="calculateSum(1)">
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 2" oninput="calculateSum(1)">
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 3" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 1" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 2" oninput="calculateSum(1)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 3" oninput="calculateSum(1)">
             <div class="add-remove-buttons">
                 <button type="button" onclick="addField(1)">إضافة دور جديد</button>
                 <button type="button" onclick="removeField(1)">حذف آخر دور</button>
@@ -238,14 +238,14 @@
 
         <div class="form-box" id="form2">
             <div class="header">
-                <label>الاسم:2</label>
+                <label>الاسم:22222222</label>
                 <input type="text" placeholder="الاسم" id="name2">
                 <label>المجموع:</label>
                 <input type="number" id="total2" readonly>
             </div>
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 1" oninput="calculateSum(2)">
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 2" oninput="calculateSum(2)">
-            <input type="tel" class="number-input" pattern="^-?[0-9]+$" inputmode="numeric" placeholder="الدور 3" oninput="calculateSum(2)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 1" oninput="calculateSum(2)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 2" oninput="calculateSum(2)">
+            <input type="tel" class="number-input" pattern="^-?[0-9]*$" inputmode="decimal" placeholder="الدور 3" oninput="calculateSum(2)">
             <div class="add-remove-buttons">
                 <button type="button" onclick="addField(2)">إضافة دور جديد</button>
                 <button type="button" onclick="removeField(2)">حذف آخر دور</button>
