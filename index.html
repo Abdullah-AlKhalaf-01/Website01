@@ -11,6 +11,8 @@
             --danger-color: #FF0000;
             --warning-color: #ff8c00;
             --success-color: #28a745;
+            --reset-color: #9c27b0;
+            --info-color: #17a2b8; /* لون أزرق فاتح لزر الشرح */
             --light-bg: rgba(255, 255, 255, 0.95);
             --dark-text: #333;
             --border-radius: 8px;
@@ -64,6 +66,7 @@
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
         
@@ -87,6 +90,16 @@
             color: white;
         }
         
+        .btn-reset {
+            background-color: var(--reset-color);
+            color: white;
+        }
+        
+        .btn-info {
+            background-color: var(--info-color);
+            color: white;
+        }
+        
         .form-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -103,6 +116,9 @@
             color: var(--dark-text);
             position: relative;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .form-box:hover {
@@ -114,43 +130,50 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
+            width: 100%;
+            align-items: center;
         }
         
         .form-header input {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
+            text-align: center;
         }
         
         .form-header label {
             font-weight: bold;
             margin-bottom: 5px;
+            text-align: center;
+            width: 100%;
         }
         
         .number-input {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
-            text-align: right;
+            text-align: center;
         }
         
         .form-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             gap: 10px;
             margin-top: 15px;
+            width: 80%;
         }
         
         .form-actions button {
-            flex: 1;
-            padding: 8px;
+            padding: 8px 16px;
             font-size: 14px;
+            min-width: 100px;
+            text-align: center;
         }
         
         .total-display {
@@ -161,6 +184,34 @@
             padding: 5px;
             background: rgba(0, 123, 255, 0.1);
             border-radius: 4px;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        /* مربع شرح اللعبة */
+        .game-instructions {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px auto;
+            max-width: 800px;
+            display: none; /* مخفي بشكل افتراضي */
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .game-instructions h2 {
+            color: var(--info-color);
+            margin-top: 0;
+            text-align: center;
+        }
+        
+        .game-instructions p {
+            line-height: 1.6;
+        }
+        
+        .game-instructions ul {
+            padding-right: 20px;
         }
         
         @media (max-width: 768px) {
@@ -171,6 +222,12 @@
             .buttons-container {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .form-header input,
+            .number-input,
+            .form-actions {
+                width: 90%;
             }
         }
         
@@ -201,6 +258,37 @@
             <button type="button" class="btn btn-warning" id="downloadDataBtn">
                 <span>تحميل البيانات</span>
             </button>
+            <button type="button" class="btn btn-reset" id="resetDataBtn">
+                <span>بدء من جديد</span>
+            </button>
+            <button type="button" class="btn btn-info" id="toggleInstructionsBtn">
+                <span>شرح اللعبة</span>
+            </button>
+        </div>
+        
+        <!-- مربع شرح اللعبة -->
+        <div id="gameInstructions" class="game-instructions">
+            <h2>كيفية استخدام التطبيق</h2>
+            <p>مرحباً بك في نظام إدارة النقاط والأدوار! هذا التطبيق يساعدك على تتبع نقاط اللاعبين عبر عدة أدوار.</p>
+            
+            <h3>طريقة الاستخدام:</h3>
+            <ul>
+                <li>أدخل اسم اللاعب في الحقل المخصص</li>
+                <li>أدخل نقاط كل دور في الحقول المخصصة</li>
+                <li>سيتم حساب المجموع الكلي تلقائياً</li>
+                <li>استخدم زر "إضافة دور" لإضافة جولة جديدة</li>
+                <li>استخدم زر "حذف دور" لإزالة آخر جولة</li>
+                <li>يمكنك إضافة لاعبين جدد أو حذفهم حسب الحاجة</li>
+                <li>استخدم زر "تحميل البيانات" لتصدير النتائج إلى ملف Excel</li>
+                <li>استخدم زر "بدء من جديد" لمسح جميع البيانات وإعادة التشغيل</li>
+            </ul>
+            
+            <h3>ملاحظات:</h3>
+            <ul>
+                <li>يمكنك إدخال قيم موجبة أو سالبة للنقاط</li>
+                <li>البيانات تحفظ تلقائياً في المتصفح</li>
+                <li>يمكنك إضافة حتى 20 لاعب و15 دور لكل لاعب</li>
+            </ul>
         </div>
         
         <div id="formContainer" class="form-container">
@@ -214,9 +302,9 @@
                     <div class="total-display" id="total1">0</div>
                 </div>
                 
-                <input type="number" class="number-input" placeholder="الدور 1" min="0">
-                <input type="number" class="number-input" placeholder="الدور 2" min="0">
-                <input type="number" class="number-input" placeholder="الدور 3" min="0">
+                <input type="number" class="number-input" placeholder="الدور 1">
+                <input type="number" class="number-input" placeholder="الدور 2">
+                <input type="number" class="number-input" placeholder="الدور 3">
                 
                 <div class="form-actions">
                     <button type="button" class="btn btn-primary" data-action="add-round" data-form="1">إضافة دور</button>
@@ -238,10 +326,20 @@
             // تهيئة التطبيق
             init: function() {
                 this.setupEventListeners();
+                this.ensureInitialForm();
                 this.loadData();
                 
                 // تحديث البيانات تلقائيا كل 3 ثواني
                 setInterval(() => this.saveData(), 3000);
+            },
+            
+            // التأكد من وجود نموذج أولي
+            ensureInitialForm: function() {
+                const formContainer = document.getElementById('formContainer');
+                if (formContainer.children.length === 0) {
+                    this.formCount = 1;
+                    formContainer.appendChild(this.createForm(1));
+                }
             },
             
             // إعداد مستمعي الأحداث
@@ -250,11 +348,12 @@
                 document.getElementById('addPlayerBtn').addEventListener('click', () => this.addNewForm());
                 document.getElementById('removePlayerBtn').addEventListener('click', () => this.removeLastForm());
                 document.getElementById('downloadDataBtn').addEventListener('click', () => this.downloadData());
+                document.getElementById('resetDataBtn').addEventListener('click', () => this.resetData());
+                document.getElementById('toggleInstructionsBtn').addEventListener('click', () => this.toggleInstructions());
                 
                 // تفويض الأحداث للنماذج
                 document.getElementById('formContainer').addEventListener('input', (e) => {
                     if (e.target.classList.contains('number-input')) {
-                        this.validateNumberInput(e.target);
                         const formId = this.getFormId(e.target);
                         this.calculateSum(formId);
                         this.saveData();
@@ -270,6 +369,29 @@
                         this.removeField(parseInt(e.target.dataset.form));
                     }
                 });
+            },
+            
+            // تبديل عرض/إخفاء شرح اللعبة
+            toggleInstructions: function() {
+                const instructions = document.getElementById('gameInstructions');
+                if (instructions.style.display === 'block') {
+                    instructions.style.display = 'none';
+                    document.getElementById('toggleInstructionsBtn').textContent = 'شرح اللعبة';
+                } else {
+                    instructions.style.display = 'block';
+                    document.getElementById('toggleInstructionsBtn').textContent = 'إخفاء الشرح';
+                }
+            },
+            
+            // إعادة تعيين البيانات
+            resetData: function() {
+                if (confirm('هل أنت متأكد أنك تريد حذف جميع البيانات وبدء من جديد؟')) {
+                    localStorage.removeItem(this.localStorageKey);
+                    const formContainer = document.getElementById('formContainer');
+                    formContainer.innerHTML = '';
+                    this.formCount = 1;
+                    formContainer.appendChild(this.createForm(1));
+                }
             },
             
             // الحصول على معرف النموذج من العنصر
@@ -297,7 +419,7 @@
                     </div>
                     
                     ${Array.from({length: this.initialRounds}, (_, i) => 
-                        `<input type="number" class="number-input" placeholder="الدور ${i+1}" min="0">`
+                        `<input type="number" class="number-input" placeholder="الدور ${i+1}">`
                     ).join('')}
                     
                     <div class="form-actions">
@@ -312,6 +434,8 @@
             // حساب المجموع
             calculateSum: function(formId) {
                 const form = document.getElementById(`form${formId}`);
+                if (!form) return;
+                
                 const inputs = form.querySelectorAll('.number-input');
                 let sum = 0;
                 
@@ -319,12 +443,24 @@
                     sum += parseFloat(input.value) || 0;
                 });
                 
-                document.getElementById(`total${formId}`).textContent = sum.toFixed(2);
+                const totalElement = document.getElementById(`total${formId}`);
+                if (totalElement) {
+                    totalElement.textContent = sum.toFixed(2);
+                    
+                    // تغيير لون المجموع إذا كان سالباً
+                    if (sum < 0) {
+                        totalElement.style.color = 'red';
+                    } else {
+                        totalElement.style.color = 'var(--primary-color)';
+                    }
+                }
             },
             
             // إضافة دور جديد
             addField: function(formId) {
                 const form = document.getElementById(`form${formId}`);
+                if (!form) return;
+                
                 const inputs = form.querySelectorAll('.number-input');
                 const nextRound = inputs.length + 1;
                 
@@ -337,7 +473,6 @@
                 input.type = 'number';
                 input.className = 'number-input';
                 input.placeholder = `الدور ${nextRound}`;
-                input.min = "0";
                 
                 const formActions = form.querySelector('.form-actions');
                 form.insertBefore(input, formActions);
@@ -349,11 +484,13 @@
             // حذف آخر دور
             removeField: function(formId) {
                 const form = document.getElementById(`form${formId}`);
+                if (!form) return;
+                
                 const inputs = form.querySelectorAll('.number-input');
                 
                 if (inputs.length > 1) {
                     const lastInput = inputs[inputs.length - 1];
-                    const name = document.getElementById(`name${formId}`).value.trim() || `اللاعب ${formId}`;
+                    const name = document.getElementById(`name${formId}`)?.value.trim() || `اللاعب ${formId}`;
                     
                     if (!lastInput.value || confirm(`هل تريد حذف آخر دور من ${name}؟`)) {
                         lastInput.remove();
@@ -386,10 +523,12 @@
             removeLastForm: function() {
                 if (this.formCount > this.minForms) {
                     const form = document.getElementById(`form${this.formCount}`);
-                    const name = document.getElementById(`name${this.formCount}`).value.trim() || `اللاعب ${this.formCount}`;
+                    if (!form) return;
+                    
+                    const name = document.getElementById(`name${this.formCount}`)?.value.trim() || `اللاعب ${this.formCount}`;
                     const inputs = form.querySelectorAll('.number-input');
                     const hasData = Array.from(inputs).some(input => input.value.trim()) || 
-                                  document.getElementById(`name${this.formCount}`).value.trim();
+                                  (document.getElementById(`name${this.formCount}`)?.value.trim());
                     
                     if (!hasData || confirm(`هل تريد حذف جميع بيانات ${name}؟`)) {
                         form.remove();
@@ -493,7 +632,10 @@
             // تحميل البيانات المحفوظة
             loadData: function() {
                 const savedData = localStorage.getItem(this.localStorageKey);
-                if (!savedData) return;
+                if (!savedData) {
+                    this.ensureInitialForm();
+                    return;
+                }
                 
                 try {
                     const data = JSON.parse(savedData);
@@ -504,7 +646,9 @@
                         this.formCount = index + 1;
                         const form = this.createForm(this.formCount);
                         
-                        document.getElementById(`name${this.formCount}`).value = player.playerName;
+                        if (document.getElementById(`name${this.formCount}`)) {
+                            document.getElementById(`name${this.formCount}`).value = player.playerName;
+                        }
                         
                         const inputs = form.querySelectorAll('.number-input');
                         inputs.forEach((input, i) => {
@@ -530,18 +674,11 @@
                     });
                     
                     if (data.length === 0) {
-                        this.formCount = 1;
-                        formContainer.appendChild(this.createForm(1));
+                        this.ensureInitialForm();
                     }
                 } catch (e) {
                     console.error('خطأ في تحميل البيانات المحفوظة:', e);
-                }
-            },
-            
-            // التحقق من صحة الإدخال
-            validateNumberInput: function(input) {
-                if (input.value < 0) {
-                    input.value = Math.abs(input.value);
+                    this.ensureInitialForm();
                 }
             }
         };
