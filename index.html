@@ -12,7 +12,7 @@
             --warning-color: #ff8c00;
             --success-color: #28a745;
             --reset-color: #9c27b0;
-            --info-color: #17a2b8; /* لون أزرق فاتح لزر الشرح */
+            --info-color: #17a2b8;
             --light-bg: rgba(255, 255, 255, 0.95);
             --dark-text: #333;
             --border-radius: 8px;
@@ -196,7 +196,7 @@
             border-radius: var(--border-radius);
             margin: 20px auto;
             max-width: 800px;
-            display: none; /* مخفي بشكل افتراضي */
+            display: none;
             animation: fadeIn 0.5s ease;
         }
         
@@ -276,9 +276,9 @@
                 <li>أدخل اسم اللاعب في الحقل المخصص</li>
                 <li>أدخل نقاط كل دور في الحقول المخصصة</li>
                 <li>سيتم حساب المجموع الكلي تلقائياً</li>
-                <li>استخدم زر "إضافة دور" لإضافة جولة جديدة</li>
+                <li>استخدم زر "إضافة دور" لإضافة جولة جديدة (حتى 200 دور لكل لاعب)</li>
                 <li>استخدم زر "حذف دور" لإزالة آخر جولة</li>
-                <li>يمكنك إضافة لاعبين جدد أو حذفهم حسب الحاجة</li>
+                <li>يمكنك إضافة حتى 20 لاعب و200 دور لكل لاعب</li>
                 <li>استخدم زر "تحميل البيانات" لتصدير النتائج إلى ملف Excel</li>
                 <li>استخدم زر "بدء من جديد" لمسح جميع البيانات وإعادة التشغيل</li>
             </ul>
@@ -287,7 +287,8 @@
             <ul>
                 <li>يمكنك إدخال قيم موجبة أو سالبة للنقاط</li>
                 <li>البيانات تحفظ تلقائياً في المتصفح</li>
-                <li>يمكنك إضافة حتى 20 لاعب و15 دور لكل لاعب</li>
+                <li>يمكنك إضافة حتى 20 لاعب و200 دور لكل لاعب</li>
+                <li>المجموع الكلي يتغير لونه إلى الأحمر إذا كان سالباً</li>
             </ul>
         </div>
         
@@ -321,6 +322,7 @@
             minForms: 1,
             maxForms: 20,
             initialRounds: 3,
+            maxRounds: 200, // تغيير من 15 إلى 200
             localStorageKey: 'playersData',
             
             // تهيئة التطبيق
@@ -464,8 +466,8 @@
                 const inputs = form.querySelectorAll('.number-input');
                 const nextRound = inputs.length + 1;
                 
-                if (inputs.length >= 15) {
-                    alert('لا يمكن إضافة أكثر من 15 دور لكل لاعب');
+                if (inputs.length >= this.maxRounds) {
+                    alert(`لا يمكن إضافة أكثر من ${this.maxRounds} دور لكل لاعب`);
                     return;
                 }
                 
