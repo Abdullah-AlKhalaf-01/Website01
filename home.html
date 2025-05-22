@@ -392,8 +392,10 @@
             
             // تسجيل الخروج
             logout: function() {
-                localStorage.removeItem('isActive');
-                window.location.href = 'index.html';
+                if (confirm("هل أنت متأكد أنك تريد تسجيل الخروج؟")) {
+                    localStorage.removeItem('isActive');
+                    window.location.href = 'index.html';
+                }
             },
             
             // تبديل عرض/إخفاء شرح اللعبة
